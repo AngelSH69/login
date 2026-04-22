@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prácticas de Proyectos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Gestión de Prácticas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="irAPractica('plantilla')">Práctica 1 - Status proyectos</a>
+                    </li>
+                    <li class="nav-item" id="basica">
+                        <a class="nav-link" href="#" onclick="irAPractica('basica')">Práctica 2 - Práctica Básica</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="irAPractica('sistema')">Práctica 3 - Sistema de usuarios</a>
+                    </li>
+                </ul>
+                <span class="navbar-text text-white me-3" id="userInfo"></span>
+                <button class="btn btn-outline-light btn-sm" onclick="logout()">Salir</button>
+            </div>
+        </div>
+    </nav>
+  
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <strong>Usuario:</strong> <span id="userInfoDetalle"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">Práctica 1 - Status proyectos</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Status de los proyectos</p>
+                        <button class="btn btn-primary" onclick="irAPractica('plantilla')">Acceder</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3" id="basicacard">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">Practica 2 proyecto 4 campos: nombre, descripción, fecha, prioridad</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Práctica básica</p>
+                        <button class="btn btn-success" onclick="irAPractica('basica')">Acceder</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3" id="practica3card">
+                <div class="card">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0">Práctica 3 - Sistema de usuarios</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Sistema de usuarios</p>
+                        <button class="btn btn-warning" onclick="irAPractica('sistema')">Acceder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Verificar autenticación
+        const token = localStorage.getItem('token');
+        const usuario = localStorage.getItem('usuario');
+        const rol = localStorage.getItem('rol');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        document.getElementById('userInfo').textContent = `${usuario} (${rol})`;
+        document.getElementById('userInfoDetalle').textContent = `${usuario} - Rol: ${rol}`;
+
+        if (rol !== 'admin') {
+            document.getElementById('basica').style.display = 'none';
+            document.getElementById('basicacard').style.display = 'none';
+            document.getElementById('practica3card').style.display = 'none';
+        }
+
+        function irAPractica(tipo) {
+            switch(tipo) {
+                case 'plantilla':
+                    window.location.href = 'plantilla.html';
+                    break;
+                case 'basica':
+                 if (rol !== 'admin') {
+                    window.location.href = 'portada.html';
+                    return;
+                }
+                    window.location.href = 'practica_basica.html';
+                    break;
+                case 'sistema':
+                    window.location.href = 'sistema_usuarios.html';
+                    break;
+            }
+        }
+        async function logout() {
+            /*try {
+                await fetch('/api/logout', { method: 'POST' });
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+            }*/
+
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuario');
+            localStorage.removeItem('rol');
+            document.cookie = 'token=; Max-Age=0; path=/';
+            window.location.href = 'login.html';
+        }
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

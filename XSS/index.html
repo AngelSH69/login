@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Demostracion</title>
+</head>
+<body>
+    <h2>Vulnerabilidad XSS</h2>
+    <form id="formulario">
+        <input type="text" id="comentario" placeholder="Escribe tu comentario" size="50">
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="resultado" style="margin-top: 20px; border: 1px solid black; padding: 10px;"></div>
+
+    <script src="app-inseguro.js"></script>
+</body>
+</html>
